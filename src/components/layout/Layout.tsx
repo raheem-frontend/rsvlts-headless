@@ -5,10 +5,10 @@ import AnnouncementBar from "./AnnouncementBar";
 
 export default function Layout({ children }) {
   return (
-    <div>
+    <div className="w-[100%] h-[100%]">
       <AnnouncementBar />
       <Navbar />
-      <div className="pt-[105px]">{children}</div>
+      <div className="w-[100%] h-[100%]">{children}</div>
     </div>
   );
 }
