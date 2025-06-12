@@ -5,10 +5,13 @@ import SearchInput from "../SearchInput";
 import Heart from "@/assets/icons/Heart";
 import User from "@/assets/icons/User";
 import Cart from "@/assets/icons/Cart";
+import AnnouncementBar from "./AnnouncementBar";
 
 function Navbar() {
   return (
-    <nav className="shadow">
+    <nav className="shadow fixed bg-white left-0 right-0 top-0 z-[9999]">
+      <AnnouncementBar />
+
       <div className="flex items-center justify-between pt-[16px] px-[24px]">
         <Link href={"/"}>
           <Image

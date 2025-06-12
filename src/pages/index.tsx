@@ -1,3 +1,4 @@
+import ShopByProduct from "@/components/shared/collections/ShopByProduct";
 import CollectionTabs from "@/components/shared/collectionTabs/CollectionTabs";
 import HeroCarousel from "@/components/shared/HeroCarousel";
 import { GET_COLLECTION_BY_HANDLE } from "@/lib/queries/collection.queries";
@@ -80,34 +81,71 @@ const SHOP_COLLECTIONS_BANNERS = [
   "https://www.rsvlts.com/cdn/shop/files/Bluey_-_Pool_Party_-_Youth_Kunu_010_1.jpg?v=1738431803",
 ];
 
-export default function Home({ collections, shopCollections }) {
-  console.log("🚀 ~ Home ~ shopCollections:", shopCollections);
-  console.log("🚀 ~ Home ~ collections:", collections);
+const SHOP_BY_PRODUCT_COLLECTIONS = [
+  {
+    handle: "mens-short-sleeve-shirts",
+    title: "Short Sleeve Shirts",
+    image:
+      "https://www.rsvlts.com/cdn/shop/files/rsvlts-short-sleeve-shirt-palms-bursting-in-air-kunuflex-short-sleeve-shirt-palms-bursting-in-air-kunuflex-short-sleeve-shirt-1166688421_large.jpg?v=1748542005",
+  },
+  {
+    handle: "crewneck-t-shirts",
+    title: "Shirts",
+    image:
+      "https://www.rsvlts.com/cdn/shop/files/rsvlts-crewneck-t-shirt-lnd-crewneck-tee-lnd-crewneck-tee-1166581100_large.jpg?v=1747160485",
+  },
+  {
+    handle: "the-all-day-polo",
+    title: "Polos",
+    image:
+      "https://www.rsvlts.com/cdn/shop/files/Breakfast_Balls_-_USA_Floral_-_Polo_001_1_large.jpg?v=1747229812",
+  },
+  {
+    handle: "mens-shorts",
+    title: "Shorts",
+    image:
+      "https://www.rsvlts.com/cdn/shop/files/RSVLTS_-_Americana_Aloha_-_Hybrid_Shorts_003_1_large.jpg?v=1747229815",
+  },
+  {
+    handle: "hoodies",
+    title: "Hoodies",
+    image:
+      "https://www.rsvlts.com/cdn/shop/files/rsvlts-performance-hoodie-america-pops-freedom-performance-hoodie-america-pops-freedom-performance-hoodie-1166581104_large.jpg?v=1747320390",
+  },
+  {
+    handle: "accessories",
+    title: "Accessories",
+    image:
+      "https://www.rsvlts.com/cdn/shop/files/rsvlts-hat-lnd-tlb-hat-lnd-tlb-hat-1166492834_large.jpg?v=1747145799",
+  },
+  {
+    handle: "sweatshirts",
+    title: "Sweatshirts",
+    image:
+      "https://www.rsvlts.com/cdn/shop/files/rsvlts-crew-sweatshirt-roosevelts-stealth-crewneck-sweatshirt-roosevelts-stealth-crewneck-sweatshirt-39189298446494_large.jpg?v=1738107085",
+  },
+  {
+    handle: "flannel",
+    title: "Flannels",
+    image:
+      "https://www.rsvlts.com/cdn/shop/files/rsvlts-flannel-long-sleeve-ned-flanders-borlandflex-long-sleeve-flannel-ned-flanders-borlandflex-long-sleeve-flannel-38606221705374_large.jpg?v=1729735118",
+  },
+];
 
+export default function Home({ collections, shopCollections }) {
   return (
     <div
       className={`${geistSans.className} ${geistMono.className} font-[family-name:var(--font-geist-sans)]`}
     >
       <HeroCarousel />
-      {/* <div className="w-[100%] h-[834px] relative">
-        <Image
-          src="https://www.rsvlts.com/cdn/shop/files/RSVLTS_-_Tahiti_Tiki_2025_-_Website_-_Desktop_copy.webp?v=1749591293"
-          alt="banner"
-          width={1000}
-          height={1000}
-          className="w-[100%] max-h-[834px] object-cover"
-        />
-        <Link
-          href={`/collections/Shop Tahitian Tiki`}
-          className="absolute bottom-[120px] left-[50%] translate-x-[-50%] uppercase text-[14px] text-[#14b095] py-[12px] px-[48px] bg-black border border-[#14b095] hover:border-black hover:text-black hover:bg-[#14b095] cursor-pointer"
-        >
-          Shop Tahitian Tiki
-        </Link>
-      </div> */}
       <CollectionTabs
         title={"Newest"}
         collections={collections}
         banners={NEWEST_COLLECTIONS_BANNERS}
+      />
+      <ShopByProduct
+        title="Shop by product"
+        collections={SHOP_BY_PRODUCT_COLLECTIONS}
       />
       <CollectionTabs
         title={"Shop"}
