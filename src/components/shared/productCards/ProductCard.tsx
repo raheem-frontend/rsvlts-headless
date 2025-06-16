@@ -37,6 +37,7 @@ type Props = {
 
 function ProductCard({ product }: Props) {
   const node = product;
+  console.log("🚀 ~ ProductCard ~ node:", node)
   return (
     <div key={node?.id} className="relative">
       <Link href={`/products/${node?.handle}`}>
@@ -75,7 +76,7 @@ function ProductCard({ product }: Props) {
             {/* {node?.tags[0]} */}
           </p>
           <p className="text-[16px] text-[#161515]">
-            {/* ${node.priceRange.minVariantPrice.amount}{" "} */}
+            ${node.priceRange.minVariantPrice.amount}{" "}
           </p>
         </div>
       </Link>

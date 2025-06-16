@@ -2,7 +2,7 @@
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GET_PRODUCT_BY_HANDLE } from "@/lib/queries/product.queries";
 import ImageGallery from "@/components/shared/ImageGallery";
 import Image from "next/image";
@@ -18,6 +18,20 @@ export default function ProductPage() {
 
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [readMore, setReadMore] = useState(false);
+
+  useEffect(() => {
+    if (data?.productByHandle?.handle) {
+      const stored = JSON.parse(localStorage.getItem("recentlyViewed") || "[]");
+
+      const updated = stored.filter((h) => h !== data?.productByHandle.handle);
+
+      updated.unshift(data?.productByHandle.handle);
+      localStorage.setItem(
+        "recentlyViewed",
+        JSON.stringify(updated.slice(0, 10))
+      );
+    }
+  }, [data?.productByHandle?.handle]);
 
   if (loading) return <p className="p-4">Loading...</p>;
   if (error || !data?.productByHandle)
@@ -94,7 +108,7 @@ export default function ProductPage() {
             className="w-full h-[49px] flex items-center justify-center gap-[4px] text-center bg-[#5433eb] text-white text-[14px] cursor-pointer hover:opacity-80 transition-all duration-300 ease-in-out"
           >
             <span className="pt-[4px]">Buy with </span>
-            <Image 
+            <Image
               src="/icons/shop-pay.svg"
               alt="Shop Pay"
               width={50}
@@ -113,7 +127,8 @@ export default function ProductPage() {
               onClick={() => setReadMore(!readMore)}
               className="flex items-center justify-center gap-[6px] text-[#161515] text-[14px] font-semibold mt-[16px]  cursor-pointer hover:opacity-80"
             >
-              <PlusIcon size={20}  />{readMore ? "Read Less" : "Read More"}
+              <PlusIcon size={20} />
+              {readMore ? "Read Less" : "Read More"}
             </button>
           </div>
 

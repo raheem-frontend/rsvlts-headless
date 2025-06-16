@@ -66,3 +66,32 @@ export const GET_PRODUCT_BY_HANDLE = gql`
     }
   }
 `;
+
+export const GET_PRODUCTS_BY_HANDLES = gql`
+  query getProductsByHandles($query: String!) {
+    products(first: 10, query: $query) {
+      edges {
+        node {
+          id
+          handle
+          title
+          images(first: 1) {
+            edges {
+              node {
+                src
+                altText
+              }
+            }
+          }
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          vendor
+        }
+      }
+    }
+  }
+`;
