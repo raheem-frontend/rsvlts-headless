@@ -4,8 +4,8 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <footer className="w-[100%] bg-[#05324f] text-white pt-[24px] px-[16px] text-sm">
-      <div className="w-[100%] flex justify-center border-b-[1px] border-white pb-[28px]">
-        <div className="w-[100%] max-w-[50%]  px-[16px]">
+      <div className="w-[100%] flex lg:flex-row flex-col justify-center border-b-[1px] border-white pb-[28px]">
+        <div className="w-[100%] lg:max-w-[50%] flex flex-col lg:justify-start lg:items-start items-center justify-center  lg:px-[16px]">
           <Image
             src="/brand-logo-footer.svg"
             alt="RSVLTS Logo"
@@ -13,17 +13,17 @@ export default function Footer() {
             height={40}
             className="mt-[20px]"
           />
-          <h3 className="text-[36px] font-[700] mt-[12px] uppercase">
+          <h3 className="lg:text-[36px] sm:text-[48px] text-[36px] font-[700] mt-[12px] lg:text-start text-center uppercase">
             STAY IN THE LOOP
           </h3>
           <p className=" text-[14px] text-[#5da4ce] uppercase">
             FOMO’S A REAL THING!
           </p>
-          <form className="flex flex-col sm:flex-row gap-2 my-[12px]">
+          <form className="w-[100%] flex flex-row lg:justify-start justify-center gap-2 my-[12px]">
             <input
               type="email"
               placeholder="Email Address"
-              className="p-[8px]  text-black bg-white w-full max-w-[354px] outline-none border-none"
+              className="p-[8px]  text-black bg-white sm:w-[354px] w-[100%] max-w-[354px] outline-none border-none"
             />
             <button className="bg-[#5da4ce]  font-semibold text-white text-[16px] px-[11px] py-[10px] hover:bg-white hover:text-[#5da4ce] transition-all duration-300 cursor-pointer">
               SUBMIT
@@ -34,12 +34,12 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="w-[100%] max-w-[50%] flex">
+        <div className="w-[100%] lg:max-w-[50%] flex">
           <div className="w-[50%]">
-            <h4 className="text-[24px] font-bold mb-[4px] text-white uppercase">
+            <h4 className="text-[24px] font-bold lg:mb-[4px] mb-[20px] text-white uppercase">
               ABOUT US
             </h4>
-            <ul className="flex flex-col gap-[8px] text-[12px] text-white uppercase">
+            <ul className="flex flex-col lg:gap-[8px] gap-[24px] text-[12px] text-white uppercase">
               <li>
                 <Link href="#" className="hover:underline">
                   About
@@ -88,10 +88,10 @@ export default function Footer() {
             </ul>
           </div>
           <div className="w-[50%]">
-            <h4 className="text-[24px] font-bold mb-[4px] text-white uppercase">
+            <h4 className="text-[24px] font-bold lg:mb-[4px] mb-[20px] text-white uppercase">
               NEED A HAND?
             </h4>
-            <ul className="flex flex-col gap-[8px] text-[12px] text-white uppercase">
+            <ul className="flex flex-col lg:gap-[8px] gap-[24px] text-[12px] text-white uppercase">
               <li>
                 <Link href="#" className="hover:underline">
                   FAQ & Size Guides
@@ -124,10 +124,10 @@ export default function Footer() {
               </li>
             </ul>
             <div>
-              <h4 className="text-[24px] font-bold mb-[4px] text-white uppercase mt-[8px]">
+              <h4 className="text-[24px] font-bold mb-[4px] text-white uppercase lg:mt-[8px] mt-[24px]">
                 FOLLOW US
               </h4>
-              <div className="flex gap-4 mt-2">
+              <div className="w-[100%] flex flex-wrap lg:gap-4 gap-[8px] mt-2">
                 <Link href="#" className="hover:opacity-80 transition-all duration-300 ease-in-out">
                   <Image
                     src="/icons/facebook.svg"
@@ -179,9 +179,9 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="w-[100%] flex  justify-end items-center p-[16px] gap-[20px]">
+      <div className="w-[100%] flex  lg:justify-end justify-start items-center lg:px-[16px] py-[16px] gap-[20px]">
         <span className=" text-[12px] text-white">Accessibility</span>
-        <span className=" text-[12px] text-white">©2025 RSVLTS</span>
+        <span className=" text-[12px] text-white sm:visible hidden">©2025 RSVLTS</span>
       </div>
     </footer>
   );

@@ -53,14 +53,15 @@ function ProductCard({ product }: Props) {
         </span>
 
         <div className="mt-[10px] relative">
-          <button className="cursor-pointer bg-white w-[64px] h-[64px] rounded-full flex items-center justify-center absolute top-[-70px] right-[20px] shadow-lg shadow-gray-400">
+          <button className="cursor-pointer bg-white lg:w-[64px] w-[32px] lg:h-[64px] h-[32px] rounded-full flex items-center justify-center absolute top-[-70px] right-[20px] shadow-lg shadow-gray-400">
             <svg
               width={"24px"}
               height={"20px"}
-              className="icon icon--cart-add"
+              className="lg:w-[24px] w-[18px] lg:h-[20px] h-[18px] icon icon--cart-add"
               viewBox="0 0 402 345"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              
             >
               <title>Quick Add</title>
               <path
@@ -69,13 +70,13 @@ function ProductCard({ product }: Props) {
               ></path>
             </svg>
           </button>
-          <p className="text-[16px] text-[#161515] font-[700] mb-[8px]">
+          <p className="md:text-[16px] text-[12px] text-[#161515] font-[700] mb-[8px]">
             {node?.title}
           </p>
           <p className="text-[14px] text-[#161515] mb-[8px]">
             {/* {node?.tags[0]} */}
           </p>
-          <p className="text-[16px] text-[#161515]">
+          <p className="md:text-[16px] text-[12px] text-[#161515]">
             ${node.priceRange.minVariantPrice.amount}{" "}
           </p>
         </div>

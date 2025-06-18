@@ -6,14 +6,19 @@ import Link from "next/link";
 export default function FandomCollections({ title, collections }) {
   return (
     <section className="py-12 px-4">
-      <h2 className="text-center text-2xl font-bold mb-8">{title}</h2>
+      <h2 className="text-[36px] text-[#1c2e36] font-[700] text-center uppercase mb-[30px]">{title}</h2>
 
-      <div className="flex flex-wrap lg:justify-between justify-center gap-[50px]  mt-[30px]">
+      <div
+        className="lg:flex grid grid-cols-3 flex-wrap lg:justify-between justify-center lg:gap-[50px] gap-[40px]  mt-[30px]"
+        style={{
+          rowGap: "20px",
+        }}
+      >
         {collections.map((collection) => (
           <Link
             key={collection.name}
             href={`/collections/${collection.href}`}
-            className="max-w-[192.25px] w-[100%] h-[195px] rounded-full bg-black flex items-center justify-center"
+            className="lg:max-w-[192.25px] w-[100%] lg:h-[195px] rounded-full bg-black flex items-center justify-center"
           >
             <Image
               src={collection.logo}

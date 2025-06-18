@@ -98,6 +98,11 @@ export const FANDOM_COLLECTIONS = [
     href: "happy-gilmore",
   },
   {
+    name: "Restocks",
+    logo: "https://www.rsvlts.com/cdn/shop/files/Restock_large.png?v=1738433664",
+    href: "restocks",
+  },
+  {
     name: "Bluey",
     logo: "https://www.rsvlts.com/cdn/shop/files/Bluey_400px_large.png?v=1738435715",
     href: "bluey",

@@ -14,7 +14,6 @@ export default function CollectionCarousel({
   products: any[];
   isLoading: boolean;
 }) {
-  console.log("🚀 ~ products:", products)
   const sliderRef = useRef<HTMLDivElement>(null);
   const [activePage, setActivePage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
@@ -71,7 +70,8 @@ export default function CollectionCarousel({
           {products.map(({ node }) => (
             <div
               key={node?.id}
-              className="relative min-w-[395px] max-w-[395px] snap-start shrink-0"
+              className="relative md:min-w-[395px]  sm:min-w-[218px] md:max-w-[395px] sm:max-w-[218px] snap-start shrink-0 min-w-[180px] max-w-[180px] 
+              "
             >
               <Link href={`/products/${node?.handle}`}>
                 <Image
@@ -81,12 +81,12 @@ export default function CollectionCarousel({
                   height={"300"}
                   className="w-full h-auto"
                 />
-                <span className="absolute top-[12px] right-[12px] bg-[#F3F1F1] text-[12px] text-[#161515]  px-[16px] py-[8px] rounded uppercase">
+                {/* <span className="absolute top-[12px] right-[12px] bg-[#F3F1F1] text-[12px] text-[#161515]  px-[16px] py-[8px] rounded uppercase">
                   New
-                </span>
+                </span> */}
 
                 <div className="mt-[10px] relative">
-                  <button className="cursor-pointer bg-white w-[64px] h-[64px] rounded-full flex items-center justify-center absolute top-[-70px] right-[20px] shadow-lg shadow-gray-400">
+                  {/* <button className="cursor-pointer bg-white w-[64px] h-[64px] rounded-full flex items-center justify-center absolute top-[-70px] right-[20px] shadow-lg shadow-gray-400">
                     <svg
                       width={"24px"}
                       height={"20px"}
@@ -101,14 +101,14 @@ export default function CollectionCarousel({
                         fill="black"
                       ></path>
                     </svg>
-                  </button>
-                  <p className="text-[16px] text-[#161515] font-[700] mb-[8px]">
+                  </button> */}
+                  <p className="lg:text-[16px] text-[12px] text-[#161515] font-[700] mb-[8px]">
                     {node?.title}
                   </p>
                   <p className="text-[14px] text-[#161515] mb-[8px]">
                     {/* {node?.tags[0]} */}
                   </p>
-                  <p className="text-[16px] text-[#161515]">
+                  <p className="lg:text-[16px] text-[12px] text-[#161515]">
                     ${node.priceRange.minVariantPrice.amount}{" "}
                   </p>
                 </div>
@@ -119,17 +119,19 @@ export default function CollectionCarousel({
       </div>
 
       {/* Pagination Dots */}
-      <div className="mt-6 flex justify-center gap-2">
-        {Array.from({ length: pageCount }).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => scrollToPage(index)}
-            className={`h-[10px] w-[10px] rounded-full transition-all duration-300 border ${
-              activePage === index ? "bg-black" : "bg-white"
-            }`}
-          />
-        ))}
-      </div>
+      {Number.isFinite(pageCount) && pageCount > 0 && (
+        <div className="flex justify-center gap-2 mt-[16px]">
+          {Array.from({ length: pageCount }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollToPage(index)}
+              className={`h-[10px] w-[10px] rounded-full transition-all duration-300 border ${
+                activePage === index ? "bg-black" : "bg-white"
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
