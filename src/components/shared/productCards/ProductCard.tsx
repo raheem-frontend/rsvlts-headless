@@ -1,6 +1,7 @@
+import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 type Product = {
   id: string;
   title: string;
@@ -36,10 +37,20 @@ type Props = {
 };
 
 function ProductCard({ product }: Props) {
+  const [showPanel, setShowPanel] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setShowPanel(false);
+      setIsClosing(false);
+    }, 300);
+  };
+
   const node = product;
-  console.log("🚀 ~ ProductCard ~ node:", node)
   return (
-    <div key={node?.id} className="relative">
+    <div key={node?.id} className="relative overflow-hidden">
       <Link href={`/products/${node?.handle}`}>
         <Image
           src={node?.images.edges[0].node.url}
@@ -53,7 +64,14 @@ function ProductCard({ product }: Props) {
         </span>
 
         <div className="mt-[10px] relative">
-          <button className="cursor-pointer bg-white lg:w-[64px] w-[32px] lg:h-[64px] h-[32px] rounded-full flex items-center justify-center absolute top-[-70px] right-[20px] shadow-lg shadow-gray-400">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              setShowPanel(!showPanel);
+            }}
+            className="cursor-pointer bg-white lg:w-[64px] w-[32px] lg:h-[64px] h-[32px] rounded-full flex items-center justify-center absolute top-[-70px] right-[20px] shadow-lg shadow-gray-400"
+          >
             <svg
               width={"24px"}
               height={"20px"}
@@ -61,7 +79,6 @@ function ProductCard({ product }: Props) {
               viewBox="0 0 402 345"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              
             >
               <title>Quick Add</title>
               <path
@@ -81,6 +98,113 @@ function ProductCard({ product }: Props) {
           </p>
         </div>
       </Link>
+      {showPanel && (
+        <div className="relative z-50">
+          <div
+            className="lg:hidden fixed inset-0 bg-black opacity-50 backdrop-blur-sm z-40"
+            onClick={handleClose}
+          />
+          <div
+            className={`
+              flex items-center flex-col
+        z-50 lg:pt-[16px] lg:px-[0px] lg:pb-[0px] pt-[32px] px-[20px] pb-[60px] bg-white transition-all duration-300 ease-in-out
+        ${
+          isClosing
+            ? "animate-slide-out-to-bottom"
+            : "animate-slide-in-from-bottom"
+        }
+
+        fixed bottom-0 left-0 w-screen h-auto
+        lg:absolute lg:bottom-0 lg:left-0 lg:w-full 
+      `}
+          >
+            <button
+              onClick={handleClose}
+              className="absolute top-2 right-2 text-[16px] text-black hover:text-gray-700 cursor-pointer"
+            >
+              <X />
+            </button>
+            <div className="block lg:hidden px-[20px]">
+              <Image
+                src={product.images.edges[0].node.url}
+                alt={product.title}
+                width={600}
+                height={600}
+                className="w-full max-w-[482px] h-auto"
+              />
+            </div>
+
+            <div className="w-[100%]  py-[16px]">
+              <p className="text-[16px] font-[600] text-[#1c2e36] uppercase text-start w-[100%]">
+                Size
+              </p>
+              <div className="flex lg:justify-start justify-center flex-wrap gap-2 lg:pt-[28px] pt-[8px] mx-auto">
+                {["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL"].map(
+                  (size) => (
+                    <button
+                      key={size}
+                      className={`w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] hover:bg-[#373434] hover:text-white transition-all duration-300 ease-in-out cursor-pointer `}
+                    >
+                      {size}
+                    </button>
+                  )
+                )}
+              </div>
+            </div>
+
+            <button
+              onClick={() => alert("Added to cart")}
+              className="w-full h-[49px] flex items-center justify-center mt-[28px] mb-[18px] bg-[#161515] text-white text-[14px] border border-[#161515] cursor-pointer uppercase hover:bg-[white] hover:text-[#161515] transition-all duration-300 ease-in-out"
+            >
+              <span className="pt-[4px]">Add to Cart</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* {showPanel && (
+        <div
+          className={`absolute bottom-0 left-0 w-full bg-white z-10 pt-[16px]
+      ${
+        isClosing
+          ? "animate-slide-out-to-bottom"
+          : "animate-slide-in-from-bottom"
+      }
+      lg:absolute lg:bottom-0 lg:left-0 lg:w-full 
+      fixed bottom-0 left-0 w-screen h-auto 
+      `}
+        >
+          <button
+            onClick={handleClose}
+            className="absolute top-2 right-2 text-[16px] text-black hover:text-gray-700 cursor-pointer"
+          >
+            <X />
+          </button>
+
+          <div className="py-[16px]">
+            <p className="text-[16px] font-[600] text-[#1c2e36] uppercase">
+              Size
+            </p>
+            <div className="flex flex-wrap gap-2 pt-[28px]">
+              {["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL"].map((size) => (
+                <button
+                  key={size}
+                  className={`w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] hover:bg-[#373434] hover:text-white transition-all duration-300 ease-in-out cursor-pointer `}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <button
+            onClick={() => alert("Added to cart")}
+            className="w-full h-[49px] flex items-center justify-center mt-[28px] mb-[18px] bg-[#161515] text-white text-[14px] border border-[#161515] cursor-pointer uppercase hover:bg-[white] hover:text-[#161515] transition-all duration-300 ease-in-out"
+          >
+            <span className="pt-[4px]">Add to Cart</span>
+          </button>
+        </div>
+      )} */}
     </div>
   );
 }

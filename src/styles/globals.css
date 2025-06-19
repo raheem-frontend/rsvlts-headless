@@ -24,3 +24,96 @@ body {
   color: var(--foreground); */
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.swiper-pagination-bullet {
+  background: transparent !important;
+  border: 1px solid #ffffff !important;
+  opacity: 1 !important;
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #ffffff !important;
+}
+
+/* Hero Carousel------------------------------------------------- */
+.mobile-img {
+  display: block;
+}
+.desktop-img {
+  display: none;
+}
+
+@media (min-width: 425px) {
+  .hero-carosuel-container {
+    max-height: 945px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-carosuel-container {
+    height: 307px;
+  }
+  .mobile-img {
+    display: none;
+  }
+  .desktop-img {
+    display: block;
+  }
+}
+
+@media (min-width: 970px) {
+  .hero-carosuel-container {
+    height: 387px;
+  }
+}
+@media (min-width: 1024px) {
+  .hero-carosuel-container {
+    height: 409px;
+  }
+}
+
+@media (min-width: 1170px) {
+  .hero-carosuel-container {
+    height: 554px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .hero-carosuel-container {
+    height: 650px;
+  }
+}
+
+/* ! PRODUCT CARD CART SLIDER */
+
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(100%);
+    /* opacity: 0; */
+  }
+  to {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-to-bottom {
+  from {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    /* opacity: 0; */
+  }
+}
+
+.animate-slide-in-from-bottom {
+  animation: slide-in-from-bottom 0.3s ease-out forwards;
+}
+
+.animate-slide-out-to-bottom {
+  animation: slide-out-to-bottom 0.3s ease-in forwards;
+}

@@ -5,6 +5,7 @@ import FandomCollections from "@/components/shared/collections/FandomCollections
 import ShopByProduct from "@/components/shared/collections/ShopByProduct";
 import CollectionTabs from "@/components/shared/collectionTabs/CollectionTabs";
 import HeroCarousel from "@/components/shared/HeroCarousel";
+import ReviewSlider from "@/components/shared/ReviewsSlider";
 import {
   FANDOM_COLLECTIONS,
   NEWEST_COLLECTIONS_BANNERS,
@@ -122,6 +123,7 @@ export default function Home({ collections, shopCollections }) {
         collections={shopCollections}
         banners={SHOP_COLLECTIONS_BANNERS}
       />
+      <ReviewSlider />
       <CollectionCarousel
         title="Recently Viewed"
         products={data?.products?.edges || []}
