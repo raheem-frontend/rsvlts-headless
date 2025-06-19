@@ -7,9 +7,15 @@ import User from "@/assets/icons/User";
 import Cart from "@/assets/icons/Cart";
 import AnnouncementBar from "./AnnouncementBar";
 import { X } from "lucide-react";
+import { useCartStore } from "@/lib/store";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { cart, openCart } = useCartStore();
+
+  const itemCount =
+    cart?.lines?.edges?.reduce((acc, { node }) => acc + node.quantity, 0) ?? 0;
+  console.log("🚀 ~ Navbar ~ cart:", cart);
 
   return (
     <nav className="w-[100%] shadow fixed bg-white left-0 right-0 top-0 z-[9999]">
@@ -41,12 +47,17 @@ function Navbar() {
           >
             <User />
           </Link>
-          <Link
-            href="/"
-            className="w-[34px] h-[100%] flex items-center justify-center"
+          <button
+            onClick={openCart}
+            className="w-[34px] h-[100%] flex items-center justify-center relative cursor-pointer"
           >
             <Cart />
-          </Link>
+            {itemCount > 0 && (
+              <span className="absolute top-[-8px] right-[-4px] bg-red-500 text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center">
+                {itemCount}
+              </span>
+            )}
+          </button>
           <div className="flex items-center gap-[12px] lg:hidden">
             {isOpen ? (
               <button onClick={() => setIsOpen(false)}>

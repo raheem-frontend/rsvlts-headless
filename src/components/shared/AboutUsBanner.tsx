@@ -32,7 +32,7 @@ export default function AboutUsBanner() {
           and fun, for those who Dare Mighty Things.
         </p>
         <Link
-          href="/about"
+          href="/comming-soon"
           className="mt-[18px] uppercase text-[14px] text-white py-[12px] px-[48px] bg-transparent border border-white  hover:text-[#161515] hover:bg-white cursor-pointer"
         >
           About Us

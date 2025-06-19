@@ -36,42 +36,63 @@ export const GET_FEATURED_COLLECTIONS = `{
 }`;
 
 export const GET_COLLECTION_BY_HANDLE = `
-query getCollectionByHandle($handle: String!, $productsCount: Int = 4) {
-  collectionByHandle(handle: $handle) {
-    id
-    title
-    description
-    handle
-    image {
-      url
-      altText
-    }
-    products(first: $productsCount) {
-      edges {
-        node {
-          id
-          title
-          handle
-          description
-          images(first: 1) {
-            edges {
-              node {
-                url
-                altText
+  query getCollectionByHandle($handle: String!, $productsCount: Int = 4) {
+    collectionByHandle(handle: $handle) {
+      id
+      title
+      description
+      handle
+      image {
+        url
+        altText
+      }
+      products(first: $productsCount) {
+        edges {
+          node {
+            id
+            title
+            handle
+            description
+            images(first: 1) {
+              edges {
+                node {
+                  url
+                  altText
+                }
               }
             }
-          }
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+            variants(first: 10) {
+              edges {
+                node {
+                  id
+                  title
+                  availableForSale
+                  selectedOptions {
+                    name
+                    value
+                  }
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  image {
+                    url
+                    altText
+                  }
+                }
+              }
             }
           }
         }
       }
     }
   }
-}
 `;
 
 export const GET_COLLECTIONS = `

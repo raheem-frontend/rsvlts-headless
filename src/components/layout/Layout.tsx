@@ -1,10 +1,12 @@
+import CartDrawer from "../shared/cart/CartDrawer";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
 export default function Layout({ children }) {
   return (
-    <div className="w-[100%] h-[100%]">
+    <div className="w-[100%] h-[100%] flex flex-col">
       <Navbar />
+      <CartDrawer />
       <div className="w-[100%] h-[100%] lg:pt-[159px] pt-[107px]">
         {children}
       </div>

@@ -7,6 +7,12 @@ import { GET_PRODUCT_BY_HANDLE } from "@/lib/queries/product.queries";
 import ImageGallery from "@/components/shared/ImageGallery";
 import Image from "next/image";
 import { PlusIcon } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules"; // Swiper v9+ uses this
+import "swiper/css";
+import "swiper/css/pagination";
+import AccordionGroup from "@/components/shared/AccoridanGroup";
+import { useCartStore } from "@/lib/store";
 
 export default function ProductPage() {
   const router = useRouter();
@@ -18,6 +24,8 @@ export default function ProductPage() {
 
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [readMore, setReadMore] = useState(false);
+
+  const { addToCart,openCart } = useCartStore();
 
   useEffect(() => {
     if (data?.productByHandle?.handle) {
@@ -40,7 +48,6 @@ export default function ProductPage() {
   const product = data.productByHandle;
   const variants = product.variants.edges.map((edge) => edge.node);
   const images = product.images.edges.map((edge) => edge.node);
-  console.log("🚀 ~ ProductPage ~ images:", images);
   const defaultVariant = selectedVariant || variants[0];
 
   return (
@@ -50,12 +57,17 @@ export default function ProductPage() {
         <meta name="description" content={product.description.slice(0, 150)} />
       </Head>
 
-      <div className="max-w-[1500px] pt-[16px] px-[30px] mx-auto flex justify-center gap-[32px]">
-        <div className="w-[823px] mr-[15px]">
+      <div
+        className="max-w-[1500px] lg:py-[36px] py-[24px] lg:px-[24px] px-[16px] mx-auto flex justify-center gap-[32px]"
+        style={{
+          minHeight: "calc(100vh - 521px)",
+        }}
+      >
+        <div className="max-w-[823px] w-[100%] mr-[15px] lg:block hidden">
           <ImageGallery images={images} />
         </div>
 
-        <div className="w-[100%] max-w-[581px]">
+        <div className="w-[100%] lg:max-w-[581px]">
           <h1 className="text-[24px] font-[700] text-[#161515] leading-[34px]">
             {product.title}
           </h1>
@@ -66,18 +78,42 @@ export default function ProductPage() {
           <p className="text-[18px] font-[700] text-[#161515] leading-[30px]">
             ${defaultVariant.price.amount}
           </p>
+          <div className="lg:hidden block">
+            <Swiper
+              loop
+              autoplay={{ delay: 10000, disableOnInteraction: false }}
+              pagination={{ clickable: true }}
+              modules={[Autoplay, Pagination]}
+              className="h-full"
+            >
+              {images &&
+                images.map((slide) => (
+                  <SwiperSlide key={slide.id}>
+                    <div className="relative w-full h-full ">
+                      <Image
+                        src={slide.url}
+                        alt={slide.altText}
+                        width={1600}
+                        height={834}
+                        className="w-full h-full block object-cover"
+                        priority
+                      />
+                    </div>
+                  </SwiperSlide>
+                ))}
+            </Swiper>
+          </div>
 
           {/* Variant Selector */}
           <div className="w-[100%] py-[16px]">
             <p className="text-[20px] font-[600] text-[#1c2e36] uppercase">
               Size
             </p>
-            <div className="flex flex-wrap gap-[8px] pt-[28px]">
+            <div className="flex flex-wrap gap-[8px] lg:pt-[28px] pt-[8px]">
               {variants.map((variant) => (
                 <button
                   key={variant.id}
                   onClick={() => setSelectedVariant(variant)}
-                  disabled={!variant.availableForSale}
                   className={`w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] hover:bg-[#373434] hover:text-white transition-all duration-300 ease-in-out cursor-pointer ${
                     selectedVariant?.id === variant.id
                       ? "bg-[#373434] text-white"
@@ -92,8 +128,12 @@ export default function ProductPage() {
 
           {/* Add to Cart */}
           <button
-            onClick={() => alert("Added to cart")}
-            className="w-full h-[49px] flex items-center justify-center mt-[28px] mb-[18px] bg-[#161515] text-white text-[14px] border border-[#161515] cursor-pointer uppercase hover:bg-[white] hover:text-[#161515] transition-all duration-300 ease-in-out"
+            onClick={async () => {
+              if (!selectedVariant) return alert("Please select a size.");
+              await addToCart(selectedVariant.id, 1);
+              openCart();
+            }}
+            className="w-full h-[49px] flex items-center justify-center mt-[28px] lg:mb-[18px] mb-[12px] bg-[#161515] text-white text-[14px] border border-[#161515] cursor-pointer uppercase hover:bg-[white] hover:text-[#161515] transition-all duration-300 ease-in-out"
           >
             <span className="pt-[4px]">Add to Cart</span>
           </button>
@@ -118,10 +158,15 @@ export default function ProductPage() {
           </a>
 
           <div className="text-[14px] text-[#161515] my-[16px]">
-            <p className="pt-[16px]">
+            <p className="pt-[16px] lg:block hidden">
               {readMore
                 ? product.description
                 : `${product.description.slice(0, 250)}...`}
+            </p>
+            <p className="pt-[16px] lg:hidden block">
+              {readMore
+                ? product.description
+                : `${product.description.slice(0, 100)}...`}
             </p>
             <button
               onClick={() => setReadMore(!readMore)}
@@ -133,32 +178,7 @@ export default function ProductPage() {
           </div>
 
           {/* Accordions */}
-          <div className="mt-6 space-y-4">
-            <details className="border p-4 rounded">
-              <summary className="cursor-pointer font-semibold">
-                Shipping and Returns
-              </summary>
-              <p className="mt-2 text-sm text-gray-600">
-                Ships in 3–5 business days. 30-day returns available.
-              </p>
-            </details>
-            <details className="border p-4 rounded">
-              <summary className="cursor-pointer font-semibold">
-                Specs and Care
-              </summary>
-              <p className="mt-2 text-sm text-gray-600">
-                Made with premium bamboo fabric. Machine washable.
-              </p>
-            </details>
-            <details className="border p-4 rounded">
-              <summary className="cursor-pointer font-semibold">
-                Why Us?
-              </summary>
-              <p className="mt-2 text-sm text-gray-600">
-                Thoughtfully designed, sustainably crafted.
-              </p>
-            </details>
-          </div>
+          <AccordionGroup />
         </div>
       </div>
     </>

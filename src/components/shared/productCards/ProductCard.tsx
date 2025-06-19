@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useCartStore } from "@/lib/store";
 import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -39,6 +41,8 @@ type Props = {
 function ProductCard({ product }: Props) {
   const [showPanel, setShowPanel] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const { addToCart,openCart } = useCartStore();
 
   const handleClose = () => {
     setIsClosing(true);
@@ -49,6 +53,10 @@ function ProductCard({ product }: Props) {
   };
 
   const node = product;
+  const sizes = node.variants.edges.map((v: any) => ({
+    id: v.node.id,
+    title: v.node.title,
+  }));
   return (
     <div key={node?.id} className="relative overflow-hidden">
       <Link href={`/products/${node?.handle}`}>
@@ -139,21 +147,32 @@ function ProductCard({ product }: Props) {
                 Size
               </p>
               <div className="flex lg:justify-start justify-center flex-wrap gap-2 lg:pt-[28px] pt-[8px] mx-auto">
-                {["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL"].map(
-                  (size) => (
-                    <button
-                      key={size}
-                      className={`w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] hover:bg-[#373434] hover:text-white transition-all duration-300 ease-in-out cursor-pointer `}
-                    >
-                      {size}
-                    </button>
-                  )
-                )}
+                {sizes.map((size) => (
+                  <button
+                    key={size.id}
+                    onClick={() => setSelectedVariant(size)}
+                    // disabled={!}
+                    className={`w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] hover:bg-[#373434] hover:text-white transition-all duration-300 ease-in-out cursor-pointer 
+                        ${
+                          selectedVariant?.id === size?.id
+                            ? "bg-[#373434] text-white"
+                            : "bg-white text-[#373434]"
+                        }
+                        `}
+                  >
+                    {size.title}
+                  </button>
+                ))}
               </div>
             </div>
 
             <button
-              onClick={() => alert("Added to cart")}
+              onClick={async () => {
+                if (!selectedVariant) return alert("Please select a size.");
+                await addToCart(selectedVariant.id, 1);
+                openCart();
+                handleClose();
+              }}
               className="w-full h-[49px] flex items-center justify-center mt-[28px] mb-[18px] bg-[#161515] text-white text-[14px] border border-[#161515] cursor-pointer uppercase hover:bg-[white] hover:text-[#161515] transition-all duration-300 ease-in-out"
             >
               <span className="pt-[4px]">Add to Cart</span>
@@ -161,50 +180,6 @@ function ProductCard({ product }: Props) {
           </div>
         </div>
       )}
-
-      {/* {showPanel && (
-        <div
-          className={`absolute bottom-0 left-0 w-full bg-white z-10 pt-[16px]
-      ${
-        isClosing
-          ? "animate-slide-out-to-bottom"
-          : "animate-slide-in-from-bottom"
-      }
-      lg:absolute lg:bottom-0 lg:left-0 lg:w-full 
-      fixed bottom-0 left-0 w-screen h-auto 
-      `}
-        >
-          <button
-            onClick={handleClose}
-            className="absolute top-2 right-2 text-[16px] text-black hover:text-gray-700 cursor-pointer"
-          >
-            <X />
-          </button>
-
-          <div className="py-[16px]">
-            <p className="text-[16px] font-[600] text-[#1c2e36] uppercase">
-              Size
-            </p>
-            <div className="flex flex-wrap gap-2 pt-[28px]">
-              {["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL"].map((size) => (
-                <button
-                  key={size}
-                  className={`w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] hover:bg-[#373434] hover:text-white transition-all duration-300 ease-in-out cursor-pointer `}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <button
-            onClick={() => alert("Added to cart")}
-            className="w-full h-[49px] flex items-center justify-center mt-[28px] mb-[18px] bg-[#161515] text-white text-[14px] border border-[#161515] cursor-pointer uppercase hover:bg-[white] hover:text-[#161515] transition-all duration-300 ease-in-out"
-          >
-            <span className="pt-[4px]">Add to Cart</span>
-          </button>
-        </div>
-      )} */}
     </div>
   );
 }

@@ -73,18 +73,21 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
           />
         </button>
       </div>
+      <div className="w-full">
+        <div className="relative aspect-square">
+          <Image
+            src={images[selectedIndex]?.url}
+            alt={images[selectedIndex]?.altText || "Selected"}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 500px"
+          />
+        </div>
+      </div>
 
-      <div className="relative h-[668px] w-[668px]">
-        <Image
-          src={images[selectedIndex]?.url}
-          alt={images[selectedIndex]?.altText || "Selected"}
-          fill
-          className="object-cover"
-        />
-        {/* <div className="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow">
+      {/* <div className="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow">
           <ZoomIn className="w-5 h-5 text-gray-600" />
         </div> */}
-      </div>
     </div>
   );
 }

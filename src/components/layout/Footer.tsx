@@ -41,47 +41,47 @@ export default function Footer() {
             </h4>
             <ul className="flex flex-col lg:gap-[8px] gap-[24px] text-[12px] text-white uppercase">
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   About
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   Rewards
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   Field Notes
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   Find a Store
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   Wholesale
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   Authenticity
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   Customer Reviews
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   #RSVLTS
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   RSVLTS Insiders
                 </Link>
               </li>
@@ -93,32 +93,32 @@ export default function Footer() {
             </h4>
             <ul className="flex flex-col lg:gap-[8px] gap-[24px] text-[12px] text-white uppercase">
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   FAQ & Size Guides
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   Refund Policy
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   Events Calendar
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   Military Discount
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
+                <Link href="/comming-soon" className="hover:underline">
                   Do Not Sell My Data
                 </Link>
               </li>
