@@ -28,6 +28,12 @@ export default function ProductPage() {
   const { addToCart, openCart } = useCartStore();
 
   useEffect(() => {
+    if (data) {
+      setSelectedVariant(data.productByHandle.variants.edges[0].node);
+    }
+  }, [data]);
+
+  useEffect(() => {
     if (data?.productByHandle?.handle) {
       const stored = JSON.parse(localStorage.getItem("recentlyViewed") || "[]");
 
@@ -103,21 +109,21 @@ export default function ProductPage() {
                 ))}
             </Swiper>
           </div>
+          {variants.length > 1 && (
+            <div className="w-full py-[16px]">
+              <p className="text-[20px] font-[600] text-[#1c2e36] uppercase">
+                Size
+              </p>
+              <div className="flex flex-wrap gap-[8px] lg:pt-[28px] pt-[8px]">
+                {variants.map((size) => {
+                  console.log("🚀 ~ {variants.map ~ size:", size);
+                  const isDisabled = !size.availableForSale;
 
-          <div className="w-full py-[16px]">
-            <p className="text-[20px] font-[600] text-[#1c2e36] uppercase">
-              Size
-            </p>
-            <div className="flex flex-wrap gap-[8px] lg:pt-[28px] pt-[8px]">
-              {variants.map((size) => {
-                console.log("🚀 ~ {variants.map ~ size:", size);
-                const isDisabled = !size.availableForSale;
-
-                return (
-                  <button
-                    key={size.id}
-                    onClick={() => setSelectedVariant(size)}
-                    className={`relative w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] 
+                  return (
+                    <button
+                      key={size.id}
+                      onClick={() => setSelectedVariant(size)}
+                      className={`relative w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] 
             transition-all duration-300 ease-in-out cursor-pointer overflow-hidden
             ${
               selectedVariant?.id === size?.id
@@ -129,16 +135,17 @@ export default function ProductPage() {
 
             ${isDisabled && "opacity-30"}
           `}
-                  >
-                    {size.title}
-                    {isDisabled && (
-                      <span className="absolute w-[130%] h-[1px] bg-gray-400 rotate-[-35deg] left-[-15%] top-[50%] translate-y-[-50%]" />
-                    )}
-                  </button>
-                );
-              })}
+                    >
+                      {size.title}
+                      {isDisabled && (
+                        <span className="absolute w-[130%] h-[1px] bg-gray-400 rotate-[-35deg] left-[-15%] top-[50%] translate-y-[-50%]" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Add to Cart */}
           <button

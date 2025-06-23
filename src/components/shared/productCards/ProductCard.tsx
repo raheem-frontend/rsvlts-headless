@@ -3,7 +3,7 @@ import { useCartStore } from "@/lib/store";
 import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 type Product = {
   id: string;
   title: string;
@@ -42,7 +42,18 @@ function ProductCard({ product }: Props) {
   const [showPanel, setShowPanel] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(null);
+  console.log("🚀 ~ ProductCard ~ selectedVariant:", selectedVariant);
   const { addToCart, openCart } = useCartStore();
+
+  useEffect(() => {
+    const node = product;
+    const sizes = node.variants.edges.map((v: any) => ({
+      id: v.node.id,
+      title: v.node.title,
+      availableForSale: v.node.availableForSale,
+    }));
+    setSelectedVariant(sizes[0]);
+  }, [product]);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -58,6 +69,7 @@ function ProductCard({ product }: Props) {
     title: v.node.title,
     availableForSale: v.node.availableForSale,
   }));
+  console.log("🚀 ~ sizes ~ sizes:", sizes);
   return (
     <div key={node?.id} className="relative overflow-hidden">
       <Link href={`/products/${node?.handle}`}>
@@ -142,19 +154,20 @@ function ProductCard({ product }: Props) {
                 className="w-full max-w-[482px] h-auto"
               />
             </div>
-            <div className="w-full py-[16px]">
-              <p className="text-[16px] font-[600] text-[#1c2e36] uppercase text-start w-full">
-                Size
-              </p>
-              <div className="flex lg:justify-start justify-center flex-wrap gap-2 lg:pt-[28px] pt-[8px] mx-auto">
-                {sizes.map((size) => {
-                  const isDisabled = !size.availableForSale;
+            {sizes.length > 1 && (
+              <div className="w-full py-[16px]">
+                <p className="text-[16px] font-[600] text-[#1c2e36] uppercase text-start w-full">
+                  Size
+                </p>
+                <div className="flex lg:justify-start justify-center flex-wrap gap-2 lg:pt-[28px] pt-[8px] mx-auto">
+                  {sizes.map((size) => {
+                    const isDisabled = !size.availableForSale;
 
-                  return (
-                    <button
-                      key={size.id}
-                      onClick={() => setSelectedVariant(size)}
-                      className={`relative w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] 
+                    return (
+                      <button
+                        key={size.id}
+                        onClick={() => setSelectedVariant(size)}
+                        className={`relative w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] 
             transition-all duration-300 ease-in-out cursor-pointer overflow-hidden
             ${
               selectedVariant?.id === size?.id
@@ -166,16 +179,17 @@ function ProductCard({ product }: Props) {
 
             ${isDisabled && "opacity-30"}
           `}
-                    >
-                      {size.title}
-                      {isDisabled && (
-                        <span className="absolute w-[130%] h-[1px] bg-gray-400 rotate-[-35deg] left-[-15%] top-[50%] translate-y-[-50%]" />
-                      )}
-                    </button>
-                  );
-                })}
+                      >
+                        {size.title}
+                        {isDisabled && (
+                          <span className="absolute w-[130%] h-[1px] bg-gray-400 rotate-[-35deg] left-[-15%] top-[50%] translate-y-[-50%]" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
 
             <button
               onClick={async () => {
