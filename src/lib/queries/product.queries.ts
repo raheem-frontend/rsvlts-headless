@@ -56,6 +56,7 @@ export const GET_PRODUCT_BY_HANDLE = gql`
           node {
             id
             title
+            availableForSale
             price {
               amount
               currencyCode

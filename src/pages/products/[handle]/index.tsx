@@ -25,7 +25,7 @@ export default function ProductPage() {
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [readMore, setReadMore] = useState(false);
 
-  const { addToCart,openCart } = useCartStore();
+  const { addToCart, openCart } = useCartStore();
 
   useEffect(() => {
     if (data?.productByHandle?.handle) {
@@ -104,25 +104,39 @@ export default function ProductPage() {
             </Swiper>
           </div>
 
-          {/* Variant Selector */}
-          <div className="w-[100%] py-[16px]">
+          <div className="w-full py-[16px]">
             <p className="text-[20px] font-[600] text-[#1c2e36] uppercase">
               Size
             </p>
             <div className="flex flex-wrap gap-[8px] lg:pt-[28px] pt-[8px]">
-              {variants.map((variant) => (
-                <button
-                  key={variant.id}
-                  onClick={() => setSelectedVariant(variant)}
-                  className={`w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] hover:bg-[#373434] hover:text-white transition-all duration-300 ease-in-out cursor-pointer ${
-                    selectedVariant?.id === variant.id
-                      ? "bg-[#373434] text-white"
-                      : "bg-white text-[#373434]"
-                  }`}
-                >
-                  {variant.title}
-                </button>
-              ))}
+              {variants.map((size) => {
+                console.log("🚀 ~ {variants.map ~ size:", size);
+                const isDisabled = !size.availableForSale;
+
+                return (
+                  <button
+                    key={size.id}
+                    onClick={() => setSelectedVariant(size)}
+                    className={`relative w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] 
+            transition-all duration-300 ease-in-out cursor-pointer overflow-hidden
+            ${
+              selectedVariant?.id === size?.id
+                ? "bg-[#373434] text-white"
+                : "bg-white text-[#373434] hover:bg-[#373434] hover:text-white"
+            }
+           
+          
+
+            ${isDisabled && "opacity-30"}
+          `}
+                  >
+                    {size.title}
+                    {isDisabled && (
+                      <span className="absolute w-[130%] h-[1px] bg-gray-400 rotate-[-35deg] left-[-15%] top-[50%] translate-y-[-50%]" />
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -133,29 +147,48 @@ export default function ProductPage() {
               await addToCart(selectedVariant.id, 1);
               openCart();
             }}
-            className="w-full h-[49px] flex items-center justify-center mt-[28px] lg:mb-[18px] mb-[12px] bg-[#161515] text-white text-[14px] border border-[#161515] cursor-pointer uppercase hover:bg-[white] hover:text-[#161515] transition-all duration-300 ease-in-out"
+            disabled={selectedVariant?.availableForSale === false}
+            className={`w-full h-[49px] flex items-center justify-center mt-[28px] lg:mb-[18px] mb-[12px] bg-[#161515] text-white text-[14px] border border-[#161515]  uppercase  transition-all duration-300 ease-in-out
+              ${
+                selectedVariant?.availableForSale
+                  ? "opacity-100 cursor-pointer hover:bg-[white] hover:text-[#161515]"
+                  : "opacity-50 cursor-not-allowed"
+              }
+              `}
           >
-            <span className="pt-[4px]">Add to Cart</span>
+            <span className="pt-[4px]">
+              {selectedVariant?.availableForSale ? "Add to Cart" : "Sold Out"}
+            </span>
           </button>
 
-          {/* Shop Pay (Mock) */}
-          <a
-            href={`https://your-shop.myshopify.com/cart/${defaultVariant.id
-              .split("/")
-              .pop()}:1`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full h-[49px] flex items-center justify-center gap-[4px] text-center bg-[#5433eb] text-white text-[14px] cursor-pointer hover:opacity-80 transition-all duration-300 ease-in-out"
-          >
-            <span className="pt-[4px]">Buy with </span>
-            <Image
-              src="/icons/shop-pay.svg"
-              alt="Shop Pay"
-              width={50}
-              height={50}
-              className="w-[85px] h-[20px]"
-            />
-          </a>
+          {selectedVariant?.availableForSale ? (
+            <a
+              href={`https://your-shop.myshopify.com/cart/${defaultVariant.id
+                .split("/")
+                .pop()}:1`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full h-[49px] flex items-center justify-center gap-[4px] text-center bg-[#5433eb] text-white text-[14px] cursor-pointer hover:opacity-80 transition-all duration-300 ease-in-out"
+            >
+              <span className="pt-[4px]">Buy with </span>
+              <Image
+                src="/icons/shop-pay.svg"
+                alt="Shop Pay"
+                width={50}
+                height={50}
+                className="w-[85px] h-[20px]"
+              />
+            </a>
+          ) : (
+            <a
+              href={``}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full h-[49px] flex items-center justify-center gap-[4px] text-center bg-[#dc3748!important] text-white text-[14px] cursor-pointer hover:opacity-80 transition-all duration-300 ease-in-out"
+            >
+              <span className="pt-[4px]">Notify Me When Available </span>
+            </a>
+          )}
 
           <div className="text-[14px] text-[#161515] my-[16px]">
             <p className="pt-[16px] lg:block hidden">

@@ -42,7 +42,7 @@ function ProductCard({ product }: Props) {
   const [showPanel, setShowPanel] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(null);
-  const { addToCart,openCart } = useCartStore();
+  const { addToCart, openCart } = useCartStore();
 
   const handleClose = () => {
     setIsClosing(true);
@@ -56,6 +56,7 @@ function ProductCard({ product }: Props) {
   const sizes = node.variants.edges.map((v: any) => ({
     id: v.node.id,
     title: v.node.title,
+    availableForSale: v.node.availableForSale,
   }));
   return (
     <div key={node?.id} className="relative overflow-hidden">
@@ -141,28 +142,38 @@ function ProductCard({ product }: Props) {
                 className="w-full max-w-[482px] h-auto"
               />
             </div>
-
-            <div className="w-[100%]  py-[16px]">
-              <p className="text-[16px] font-[600] text-[#1c2e36] uppercase text-start w-[100%]">
+            <div className="w-full py-[16px]">
+              <p className="text-[16px] font-[600] text-[#1c2e36] uppercase text-start w-full">
                 Size
               </p>
               <div className="flex lg:justify-start justify-center flex-wrap gap-2 lg:pt-[28px] pt-[8px] mx-auto">
-                {sizes.map((size) => (
-                  <button
-                    key={size.id}
-                    onClick={() => setSelectedVariant(size)}
-                    // disabled={!}
-                    className={`w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] hover:bg-[#373434] hover:text-white transition-all duration-300 ease-in-out cursor-pointer 
-                        ${
-                          selectedVariant?.id === size?.id
-                            ? "bg-[#373434] text-white"
-                            : "bg-white text-[#373434]"
-                        }
-                        `}
-                  >
-                    {size.title}
-                  </button>
-                ))}
+                {sizes.map((size) => {
+                  const isDisabled = !size.availableForSale;
+
+                  return (
+                    <button
+                      key={size.id}
+                      onClick={() => setSelectedVariant(size)}
+                      className={`relative w-[66px] h-[47px] flex items-center justify-center border border-[#373434] text-[14px] 
+            transition-all duration-300 ease-in-out cursor-pointer overflow-hidden
+            ${
+              selectedVariant?.id === size?.id
+                ? "bg-[#373434] text-white"
+                : "bg-white text-[#373434] hover:bg-[#373434] hover:text-white"
+            }
+           
+          
+
+            ${isDisabled && "opacity-30"}
+          `}
+                    >
+                      {size.title}
+                      {isDisabled && (
+                        <span className="absolute w-[130%] h-[1px] bg-gray-400 rotate-[-35deg] left-[-15%] top-[50%] translate-y-[-50%]" />
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -173,9 +184,12 @@ function ProductCard({ product }: Props) {
                 openCart();
                 handleClose();
               }}
+              disabled={selectedVariant?.availableForSale === false}
               className="w-full h-[49px] flex items-center justify-center mt-[28px] mb-[18px] bg-[#161515] text-white text-[14px] border border-[#161515] cursor-pointer uppercase hover:bg-[white] hover:text-[#161515] transition-all duration-300 ease-in-out"
             >
-              <span className="pt-[4px]">Add to Cart</span>
+              <span className="pt-[4px]">
+                {selectedVariant?.availableForSale ? "Add to bag" : "Sold Out"}
+              </span>
             </button>
           </div>
         </div>
