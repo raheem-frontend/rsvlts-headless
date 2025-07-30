@@ -4,35 +4,35 @@ import { shopifyClient } from "@/lib/shopify";
 import { GetStaticPaths, GetStaticProps } from "next";
 
 type Product = {
-    id: string;
-    title: string;
-    handle: string;
-    description: string;
-    priceRange: {
-      minVariantPrice: {
-        amount: string;
-        currencyCode: string;
-      };
-    };
-    images: {
-      edges: {
-        node: {
-          url: string;
-          altText: string;
-        };
-      }[];
-    };
-    variants: {
-      edges: {
-        node: {
-          price: {
-            amount: string;
-            currencyCode: string;
-          };
-        };
-      }[];
+  id: string;
+  title: string;
+  handle: string;
+  description: string;
+  priceRange: {
+    minVariantPrice: {
+      amount: string;
+      currencyCode: string;
     };
   };
+  images: {
+    edges: {
+      node: {
+        url: string;
+        altText: string;
+      };
+    }[];
+  };
+  variants: {
+    edges: {
+      node: {
+        price: {
+          amount: string;
+          currencyCode: string;
+        };
+      };
+    }[];
+  };
+};
 
 type CollectionPageProps = {
   collection: {
@@ -64,7 +64,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       revalidate: 60,
     };
   } catch (error) {
-    console.log("🚀 ~ constgetStaticProps:GetStaticProps= ~ error:", error);
     return { notFound: true };
   }
 };
@@ -97,10 +96,7 @@ export default function CollectionPage({ collection }: CollectionPageProps) {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-y-[60px] gap-x-[32px] px-[16px] py-[60px]">
         {collection.products.edges.map(({ node }) => {
-          console.log("first", node?.images.edges[0].node.altText);
-          return (
-            <ProductCard key={node?.id} product={node}/>
-          );
+          return <ProductCard key={node?.id} product={node} />;
         })}
       </div>
     </div>

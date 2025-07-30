@@ -4,6 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { useRef, useState, useEffect } from "react";
+import Spinner from "../Spinner";
 
 export default function CollectionCarousel({
   title,
@@ -55,7 +56,7 @@ export default function CollectionCarousel({
     slider.scrollTo({ left: scrollAmount, behavior: "smooth" });
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Spinner />;
 
   return (
     <section className="py-12 px-4">

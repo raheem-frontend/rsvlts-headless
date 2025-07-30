@@ -64,9 +64,19 @@ export const GET_PRODUCT_BY_HANDLE = gql`
           }
         }
       }
+      collections(first: 10) {
+        edges {
+          node {
+            id
+            title         
+            handle
+          }
+        }
+      }
     }
   }
 `;
+
 
 export const GET_PRODUCTS_BY_HANDLES = gql`
   query getProductsByHandles($query: String!) {

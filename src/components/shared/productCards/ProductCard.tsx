@@ -64,7 +64,7 @@ function ProductCard({ product }: Props) {
   };
 
   const node = product;
-  const sizes = node.variants.edges.map((v: any) => ({
+  const sizes = node?.variants?.edges?.map((v: any) => ({
     id: v.node.id,
     title: v.node.title,
     availableForSale: v.node.availableForSale,

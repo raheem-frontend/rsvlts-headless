@@ -60,7 +60,6 @@ export async function getStaticProps() {
 
   const results = await Promise.all(collectionPromises);
 
-  // Now TypeScript knows each result has .collectionByHandle
   const collections = results.map((res) => res.collectionByHandle);
 
   const shopCollectionPromises = shopSectionsHandles.map((handle) =>
@@ -72,7 +71,6 @@ export async function getStaticProps() {
 
   const shopResults = await Promise.all(shopCollectionPromises);
 
-  // Now TypeScript knows each result has .collectionByHandle
   const shopCollections = shopResults.map((res) => res.collectionByHandle);
 
   return {

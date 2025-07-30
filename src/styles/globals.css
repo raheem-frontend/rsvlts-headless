@@ -128,3 +128,16 @@ body {
 .animate-slide-out-to-bottom {
   animation: slide-out-to-bottom 0.3s ease-in forwards;
 }
+.product-swiper {
+  /* height: 470px !important; */
+  padding-bottom: 60px !important;
+}
+
+.product-swiper .swiper-pagination-bullet {
+  @apply !bg-none  w-[10px] h-[10p] !border !border-black rounded-full mx-1;
+
+}
+
+.product-swiper .swiper-pagination-bullet-active {
+  @apply !bg-black opacity-100;
+}

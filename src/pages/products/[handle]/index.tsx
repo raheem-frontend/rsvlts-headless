@@ -3,7 +3,10 @@ import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { GET_PRODUCT_BY_HANDLE } from "@/lib/queries/product.queries";
+import {
+  GET_PRODUCT_BY_HANDLE,
+  GET_PRODUCTS_BY_HANDLES,
+} from "@/lib/queries/product.queries";
 import ImageGallery from "@/components/shared/ImageGallery";
 import Image from "next/image";
 import { PlusIcon } from "lucide-react";
@@ -13,6 +16,11 @@ import "swiper/css";
 import "swiper/css/pagination";
 import AccordionGroup from "@/components/shared/AccoridanGroup";
 import { useCartStore } from "@/lib/store";
+import PDPDetails from "@/components/pages/pdp/PDPDetails";
+import ProductsSlider from "@/components/shared/sliders/ProductsSlider";
+import { GET_COLLECTION_BY_HANDLE } from "@/lib/queries/collection.queries";
+import ProductReviews from "@/components/pages/pdp/ProductReviews";
+import Spinner from "@/components/shared/Spinner";
 
 export default function ProductPage() {
   const router = useRouter();
@@ -21,6 +29,23 @@ export default function ProductPage() {
     variables: { handle },
     skip: !handle,
   });
+  console.log("🚀 ~ ProductPage ~ data:", data);
+
+  const alsoLikeCollection = useQuery(GET_COLLECTION_BY_HANDLE, {
+    variables: { handle: "happy-gilmore" },
+  });
+  const moreFromThisCollection = useQuery(GET_COLLECTION_BY_HANDLE, {
+    variables: {
+      handle: "breakfast-balls-originals",
+      productsCount: 10, // 👈 this overrides the default of 4
+    },
+  });
+  const trendingCollection = useQuery(GET_COLLECTION_BY_HANDLE, {
+    variables: {
+      handle: "breakfast-balls-accessories",
+    },
+  });
+  console.log("🚀 ~ ProductPage ~ alsoLikeCollection:", alsoLikeCollection);
 
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [readMore, setReadMore] = useState(false);
@@ -47,7 +72,12 @@ export default function ProductPage() {
     }
   }, [data?.productByHandle?.handle]);
 
-  if (loading) return <p className="p-4">Loading...</p>;
+  if (loading)
+    return (
+      <div className="w-[100%] h-[80vh] flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
   if (error || !data?.productByHandle)
     return <p className="p-4 text-red-500">Product not found.</p>;
 
@@ -116,7 +146,6 @@ export default function ProductPage() {
               </p>
               <div className="flex flex-wrap gap-[8px] lg:pt-[28px] pt-[8px]">
                 {variants.map((size) => {
-                  console.log("🚀 ~ {variants.map ~ size:", size);
                   const isDisabled = !size.availableForSale;
 
                   return (
@@ -221,6 +250,25 @@ export default function ProductPage() {
           <AccordionGroup />
         </div>
       </div>
+      <PDPDetails />
+      <ProductsSlider
+        title="YOU MAY ALSO LIKE"
+        collection={""}
+        data={alsoLikeCollection.data?.collectionByHandle?.products.edges || []}
+      />
+      <ProductsSlider
+        title="Trending"
+        collection={""}
+        data={trendingCollection.data?.collectionByHandle?.products.edges || []}
+      />
+      <ProductReviews />
+      <ProductsSlider
+        title="More From This Collection"
+        collection={moreFromThisCollection.data?.collectionByHandle}
+        data={
+          moreFromThisCollection.data?.collectionByHandle?.products.edges || []
+        }
+      />
     </>
   );
 }

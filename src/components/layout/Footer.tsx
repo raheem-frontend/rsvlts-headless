@@ -41,7 +41,7 @@ export default function Footer() {
             </h4>
             <ul className="flex flex-col lg:gap-[8px] gap-[24px] text-[12px] text-white uppercase">
               <li>
-                <Link href="/comming-soon" className="hover:underline">
+                <Link href="/about-us" className="hover:underline">
                   About
                 </Link>
               </li>

@@ -35,7 +35,68 @@ export const GET_FEATURED_COLLECTIONS = `{
   }
 }`;
 
-export const GET_COLLECTION_BY_HANDLE = `
+// export const GET_COLLECTION_BY_HANDLE = `
+//   query getCollectionByHandle($handle: String!, $productsCount: Int = 4) {
+//     collectionByHandle(handle: $handle) {
+//       id
+//       title
+//       description
+//       handle
+//       image {
+//         url
+//         altText
+//       }
+//       products(first: $productsCount) {
+//         edges {
+//           node {
+//             id
+//             title
+//             handle
+//             description
+//             images(first: 1) {
+//               edges {
+//                 node {
+//                   url
+//                   altText
+//                 }
+//               }
+//             }
+//             priceRange {
+//               minVariantPrice {
+//                 amount
+//                 currencyCode
+//               }
+//             }
+//             variants(first: 10) {
+//               edges {
+//                 node {
+//                   id
+//                   title
+//                   availableForSale
+//                   selectedOptions {
+//                     name
+//                     value
+//                   }
+//                   price {
+//                     amount
+//                     currencyCode
+//                   }
+//                   image {
+//                     url
+//                     altText
+//                   }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+import { gql, useQuery } from "@apollo/client";
+
+export const GET_COLLECTION_BY_HANDLE = gql`
   query getCollectionByHandle($handle: String!, $productsCount: Int = 4) {
     collectionByHandle(handle: $handle) {
       id
@@ -95,6 +156,8 @@ export const GET_COLLECTION_BY_HANDLE = `
   }
 `;
 
+
+
 export const GET_COLLECTIONS = `
 {
   collections(first: 3) {
@@ -136,4 +199,52 @@ export const GET_COLLECTIONS = `
     }
   }
 }
+`;
+
+
+
+export const GET_PRODUCT_RECOMMENDATIONS = gql`
+  query getRecommendations($productId: ID!, $productsCount: Int = 4) {
+    productRecommendations(productId: $productId) {
+      id
+      title
+      handle
+      description
+      images(first: 1) {
+        edges {
+          node {
+            url
+            altText
+          }
+        }
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            title
+            availableForSale
+            selectedOptions {
+              name
+              value
+            }
+            price {
+              amount
+              currencyCode
+            }
+            image {
+              url
+              altText
+            }
+          }
+        }
+      }
+    }
+  }
 `;
